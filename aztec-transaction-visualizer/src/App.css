@@ -1,0 +1,192 @@
+:root {
+  --aztec-purple: #9333ea;
+  --aztec-purple-light: #a855f7;
+  --aztec-purple-dark: #7e22ce;
+  --off-chain-bg: #1e293b;
+  --on-chain-bg: #065f46;
+  --off-chain-color: #60a5fa;
+  --on-chain-color: #34d399;
+  --border-color: #334155;
+  --card-bg: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  color: var(--text-primary);
+}
+
+.app-header {
+  text-align: center;
+  padding: 3rem 2rem 2.5rem;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+  border-bottom: 2px solid var(--aztec-purple);
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top center, rgba(147, 51, 234, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--aztec-purple-light), transparent);
+}
+
+.app-header h1 {
+  font-size: 2.8rem;
+  margin: 0 0 0.75rem;
+  background: linear-gradient(135deg, var(--aztec-purple-light), var(--on-chain-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border-top: 2px solid var(--border-color);
+  color: var(--text-secondary);
+  margin-top: 4rem;
+  position: relative;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.app-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at bottom center, rgba(147, 51, 234, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.app-footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--aztec-purple), transparent);
+}
+
+.app-footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+}
+
+.app-footer a {
+  color: var(--aztec-purple-light);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.app-footer a:hover {
+  color: var(--on-chain-color);
+  text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+}
+
+/* Utility classes */
+.location-badge {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.location-badge.off-chain,
+.tree-badge.off-chain {
+  background: var(--off-chain-bg);
+  color: var(--off-chain-color);
+  border: 1px solid var(--off-chain-color);
+  box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
+}
+
+.location-badge.on-chain,
+.tree-badge.on-chain {
+  background: var(--on-chain-bg);
+  color: var(--on-chain-color);
+  border: 1px solid var(--on-chain-color);
+  box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
+}
+
+.location-badge.public {
+  background: var(--on-chain-bg);
+  color: var(--on-chain-color);
+  border: 1px solid var(--on-chain-color);
+  box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
+}
+
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 2rem;
+  }
+
+  .app-header {
+    padding: 2rem 1rem 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .main-content {
+    padding: 2rem 1rem;
+  }
+
+  .app-footer {
+    padding: 2rem 1rem;
+  }
+}
