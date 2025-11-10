@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './VotingDemo.css'
 
 function TokenDemo() {
@@ -7,6 +7,7 @@ function TokenDemo() {
   const [selectedUser, setSelectedUser] = useState('Alice')
   const [selectedRecipient, setSelectedRecipient] = useState('Bob')
   const [transferAmount, setTransferAmount] = useState(100)
+  const logEndRef = useRef(null)
 
   // Private state - users' local notes (only visible to each user)
   const [privateState, setPrivateState] = useState({
@@ -43,6 +44,16 @@ function TokenDemo() {
   const addLog = (message, type = 'info') => {
     setExecutionLog(prev => [...prev, { message, type, timestamp: Date.now() }])
   }
+
+  // Auto-scroll to bottom when new logs are added
+  useEffect(() => {
+    if (logEndRef.current) {
+      const container = logEndRef.current.parentElement
+      if (container) {
+        container.scrollTop = container.scrollHeight
+      }
+    }
+  }, [executionLog])
 
   const resetDemo = () => {
     setCurrentPhase(0)
@@ -103,9 +114,8 @@ function TokenDemo() {
             addLog(`🔑 Generating nullifiers for spent notes...`, 'info')
 
             setTimeout(() => {
-              // Generate nullifiers for spent notes
-              const spentNotes = userNotes.filter(note => note.value <= transferAmount)
-              const nullifiers = spentNotes.map(() => {
+              // Generate nullifiers for spent notes (all notes are spent in this simple demo)
+              const nullifiers = userNotes.map(() => {
                 const randomBytes = Array.from({length: 32}, () => Math.floor(Math.random() * 16).toString(16)).join('')
                 return `0x${randomBytes}`
               })
@@ -147,7 +157,7 @@ function TokenDemo() {
                         }))
 
                         // Store nullifiers and hashes for later
-                        window.tempTransferData = { nullifiers, newNoteHash, changeNoteHash, spentNotes }
+                        window.tempTransferData = { nullifiers, newNoteHash, changeNoteHash }
 
                         setTimeout(() => {
                           addLog('✓ Private execution complete!', 'success')
@@ -164,7 +174,7 @@ function TokenDemo() {
                         [recipientKey]: [...prev[recipientKey], { value: transferAmount, nullifier: null, hash: newNoteHash }]
                       }))
 
-                      window.tempTransferData = { nullifiers, newNoteHash, changeNoteHash: null, spentNotes }
+                      window.tempTransferData = { nullifiers, newNoteHash, changeNoteHash: null }
 
                       addLog('✓ Private execution complete!', 'success')
                       setIsProcessing(false)
@@ -320,7 +330,10 @@ function TokenDemo() {
             <p>Transfer is processed privately on {selectedUser}'s device. Nullifiers prevent double-spending.</p>
             <button
               className="primary-btn"
-              onClick={executePrivate}
+              onClick={() => {
+                setCodeTooltips([])
+                executePrivate()
+              }}
               disabled={isProcessing}
             >
               {isProcessing ? 'Executing...' : 'Execute Private Transfer'}
@@ -336,7 +349,10 @@ function TokenDemo() {
             <p>Zero-knowledge proof submitted to sequencer. Trees will be updated.</p>
             <button
               className="primary-btn"
-              onClick={submitToSequencer}
+              onClick={() => {
+                setCodeTooltips([])
+                submitToSequencer()
+              }}
               disabled={isProcessing}
             >
               {isProcessing ? 'Submitting...' : 'Submit Proof'}
@@ -368,6 +384,7 @@ function TokenDemo() {
                   {log.message}
                 </div>
               ))}
+              <div ref={logEndRef} />
             </div>
           </div>
         </div>
